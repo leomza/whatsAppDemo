@@ -55,10 +55,10 @@ var handleSubmitNewUser = function (ev) {
         //This function is to validate that the number is not already taken
         validator(ev, userList);
         var user = new User(name, number, image);
+        if (!user)
+            throw new Error('The user doesn´t exist!');
         addUser(user);
         ev.target.reset();
-        if (!user)
-            throw new Error('The user doesn´t exist!'); //YS: This should go after you define user. 
     }
     catch (error) {
         console.error(error);
@@ -71,7 +71,7 @@ function addUser(user) {
             throw new Error('The user it doesn´t exist!');
         userList.push(user);
         renderContacts(userList);
-        document.querySelector('#previewImage').setAttribute('src', "../Img_whatsapp/profile.png");
+        document.querySelector('#previewImage').setAttribute('src', "Img_whatsapp/profile.png");
         modal.style.display = "none";
     }
     catch (error) {
@@ -87,13 +87,13 @@ function renderContacts(arrayUser) {
             throw new Error('The element where to show the contacts doesn´t exist!');
         //Doing a loop to show the contacts
         var html = arrayUser.map(function (element) {
-            if (element.picture === null) { //YS: if (!element.picture)
-                element.picture = "../Img_whatsapp/profile.png";
+            if (element.picture === null) {
+                element.picture = "Img_whatsapp/profile.png";
             }
             ;
-            return ("<div class=\"chat\" id=\"chat\">\n                <div class=\"chat__left\">\n                    <img src=\"" + element.picture + "\" alt=\"\">\n                </div>\n                <div class=\"chat__right\" onclick='redirect(\"" + element.number + "\")'>\n                    <div class=\"chat__right--top\">\n                        <span class=\"chat__right--top__contact-name\">" + element.name + "</span>\n                        <span class=\"chat__right--top__phone-number\">Phone Number: " + element.number + "</span>\n                    </div>\n                    <div class=\"chat__right--bottom\">\n                        <div class=\"chat__right--bottom--left\">\n                            <img class=\"double-check-mark\" src=\"../Img_whatsapp/double-check-seen.svg\" alt=\"\">\n                            <span>Raziel is typing...</span>\n                        </div>\n                    </div>\n                </div>\n                <i class=\"fas fa-trash table__remove\" onclick='removeChat(\"" + element.number + "\")'></i>\n            </div>");
+            return ("<div class=\"chat\" id=\"chat\">\n                <div class=\"chat__left\">\n                    <img src=\"" + element.picture + "\" alt=\"\">\n                </div>\n                <div class=\"chat__right\" onclick='redirect(\"" + element.number + "\")'>\n                    <div class=\"chat__right--top\">\n                        <span class=\"chat__right--top__contact-name\">" + element.name + "</span>\n                        <span class=\"chat__right--top__phone-number\">Phone Number: " + element.number + "</span>\n                    </div>\n                    <div class=\"chat__right--bottom\">\n                        <div class=\"chat__right--bottom--left\">\n                            <img class=\"double-check-mark\" src=\"Img_whatsapp/double-check-seen.svg\" alt=\"\">\n                            <span>Leonardo is typing...</span>\n                        </div>\n                    </div>\n                </div>\n                <i class=\"fas fa-trash table__remove\" onclick='removeChat(\"" + element.number + "\")'></i>\n            </div>");
         }).join('');
-        showContact.innerHTML = html; //YS: Look up using insertAdjacentHTML instead of  innerHTML 
+        showContact.innerHTML = html;
     }
     catch (error) {
         console.error(error);
@@ -124,8 +124,8 @@ function redirect(userNumber) {
     try {
         localStorage.setItem('userInfo', JSON.stringify(userList));
         localStorage.setItem('numberToSearch', userNumber);
-        window.location.href = '../Chat/whatsappChat.html';
-        /*YS: This link is incorrect, you are always redirecting to the same page. You want to re-direct to the specific users page.
+        window.location.href = './Chat/whatsappChat.html';
+        /*With that link I'm always redirecting to the same page. If I want to re-direct to the specific users page.
         The correct way to link would be: 'whatsapp.html?userphone=${userNumber}'. */
         if (!window.location.href)
             throw new Error('The page where you want to redirect it doesn´t exist!');
@@ -167,7 +167,7 @@ function removeChat(chatNumber) {
     try {
         var option = confirm("Are you sure do you want to delete this chat?");
         if (option) {
-            var chatIndex = userList.findIndex(function (element) { return element.number === chatNumber; }); //YS: I would reccommend you to use filter instead of splice. 
+            var chatIndex = userList.findIndex(function (element) { return element.number === chatNumber; });
             userList.splice(chatIndex, 1);
             renderContacts(userList);
         }

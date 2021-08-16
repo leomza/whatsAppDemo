@@ -81,7 +81,7 @@ const handleSubmitMessage = (ev: any): void => {
 //This function redirect back to the main page
 function redirectBack(): void {
     try {
-        window.location.href = '../Main/whatsapp.html'
+        window.location.href = '../index.html'
         if (!window.location.href) throw new Error('The page where you want to redirect it doesn´t exist!');
     } catch (error) {
         console.error(error);
@@ -112,7 +112,7 @@ try {
 }
 
 //Function to render the information inside the chat
-function renderInsideChat(message: Message): void { //YS: Good
+function renderInsideChat(message: Message): void {
     try {
         let chatArea = document.querySelector('.chat-box');
         let temp = `
@@ -150,7 +150,7 @@ renderOldConversation();
 //Function to add the emojis in the chat
 const button = document.querySelector('#emoji-button'); 
 
-const picker = new EmojiButton(); //YS: Nice
+const picker = new EmojiButton();
 picker.on('emoji', emoji => {
     document.querySelector('#input').value += emoji;
 });

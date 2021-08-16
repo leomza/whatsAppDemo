@@ -43,7 +43,7 @@ var handleSubmitMessage = function (ev) {
 //This function redirect back to the main page
 function redirectBack() {
     try {
-        window.location.href = '../Main/whatsapp.html';
+        window.location.href = '../index.html';
         if (!window.location.href)
             throw new Error('The page where you want to redirect it doesn´t exist!');
     }
@@ -100,7 +100,7 @@ function renderOldConversation() {
 renderOldConversation();
 //Function to add the emojis in the chat
 var button = document.querySelector('#emoji-button');
-var picker = new EmojiButton(); //YS: Nice
+var picker = new EmojiButton();
 picker.on('emoji', function (emoji) {
     document.querySelector('#input').value += emoji;
 });
